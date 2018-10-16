@@ -18,17 +18,17 @@ def preprocess_data(path):
   data = pd.DataFrame({'date': dates, 'count': counts})
   data['date'] = pd.to_datetime(data.date, format='%d/%m/%Y').dt.date
   data = data.sort_values(by='date')
-  data = data.set_index(data.date)
-  data = data[['count']]
   return data
 
 
 def load_data(path):
-  return pd.read_csv(path)
+  df = pd.read_csv(path)
+  df['date'] = pd.to_datetime(df['date']).dt.date
+  return df
 
 
 def plot_data(data):
-  dates = pd.to_datetime(data['date']).dt.date.values
+  dates = data['date'].values
   counts = data['count'].values
   fig = plt.figure(figsize=(12, 6))
   ax = fig.add_subplot(111)
